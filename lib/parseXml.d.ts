@@ -1,4 +1,4 @@
-declare type XmlNode = XmlNode[] & {
+type XmlNode = XmlNode[] & {
     label: string
     xarg: { [key: string]: string }
 }

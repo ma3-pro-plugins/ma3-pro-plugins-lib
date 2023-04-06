@@ -1,4 +1,4 @@
-import { getTimeMillis } from "lib/TimeUtils"
+import { getTimeMillis } from "./TimeUtils"
 
 export enum LogLevel {
     TRACE = 1,
@@ -26,14 +26,14 @@ const DEFAULT_LOG_LEVEL = LogLevel.ERROR
 type Params = {
     prefix?: string[],
     logLevel?: LogLevel
-    withElappsedTimePrefixd?: boolean
+    withElappsedTimePrefix?: boolean
 }
 /**
  * 
  * @param configs a config heirarchy (anscestors) of this logger
  */
 export function Logger(params?: Params) {
-    const { prefix, logLevel, withElappsedTimePrefixd } = params === undefined ? {} as Params : params
+    const { prefix, logLevel, withElappsedTimePrefix } = params === undefined ? {} as Params : params
     const _prefix = (prefix ?? []).map(p => `[${p}]`).join("")
     const childLoggers: Logger[] = []
 
@@ -50,19 +50,19 @@ export function Logger(params?: Params) {
 
     function _prefixMsg(msg: string) {
         let elapsed
-        if (withElappsedTimePrefixd) {
+        if (withElappsedTimePrefix) {
             elapsed = makeTimeStamp()
         }
-        const elapsedPart = withElappsedTimePrefixd ? `[${elapsed === undefined ? "?" : elapsed}ms]` : ""
+        const elapsedPart = withElappsedTimePrefix ? `[${elapsed === undefined ? "?" : elapsed}ms]` : ""
         return `${_prefix}:${elapsedPart} ${msg}`
     }
 
     function _prefixMsgWithLevel(msg: string, logLevel: LogLevel) {
         let elapsed
-        if (withElappsedTimePrefixd) {
+        if (withElappsedTimePrefix) {
             elapsed = makeTimeStamp()
         }
-        const elapsedPart = withElappsedTimePrefixd ? `[${elapsed === undefined ? "?" : elapsed}ms]` : ""
+        const elapsedPart = withElappsedTimePrefix ? `[${elapsed === undefined ? "?" : elapsed}ms]` : ""
         return `${_prefix}:${elapsedPart} ${logLevelString[logLevel - 1]} ${msg}`
     }
 

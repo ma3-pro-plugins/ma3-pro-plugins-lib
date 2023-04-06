@@ -9,7 +9,7 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
-    "build": "npx tstl"
+    "build": "rm -rf dist; npx tstl; node scripts/postbuild.mjs"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/ma3-pro-plugins/ma3-pro-plugins-lib#readme",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "fs-extra": "^11.1.1",
     "grandma3-ts-types": "^1.1.1",
     "lua-types": "^2.13.1",
     "typescript": "^5.0.2",

@@ -1,6 +1,6 @@
-import { Logger } from "lib/Logger"
-import { XmlUtils } from "lib/xml/XmlUtils"
-import { FileUtils } from "../FileUtils"
+import { FileUtils } from "./FileUtils"
+import { Logger } from "./Logger"
+import { XmlUtils } from "./XmlUtils"
 import { decode } from "./base64Codec"
 
 /**
@@ -23,10 +23,13 @@ export function ImageLibraryAccess(pluginId: string, log: Logger) {
         return `${pluginId}_${originalFileName}`
     }
 
-    function writeToImageLibrary(images: { sourceBase64: string, fileName: string }[]) {
+    function writeToImageLibrary(images: ImageData[]) {
+        if (!FileUtils.exists(imageLibraryPath)) {
+            FileUtils.makeDir(imageLibraryPath)
+        }
         images.forEach(image => {
             const path = FileUtils.path(imageLibraryPath, getImageFileName(image.fileName))
-            FileUtils.writeBinaryFile(path, decode(image.sourceBase64))
+            FileUtils.writeBinaryFile(path, decode(image.imageBase64))
         })
         Cmd(`UpdateContent image "Images"`)
     }

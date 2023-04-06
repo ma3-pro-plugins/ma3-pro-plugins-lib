@@ -8,11 +8,11 @@
         "declaration": true,
         "baseUrl": ".",
         "paths": {
-            "lib": ["lib/*"] // this mapping is relative to "baseUrl"
+            "lib": ["lib/*"]
           },
         "outDir": "./dist"
       },
-    "include": ["./node_modules/grandma3-ts-types/index.d.ts", "lib/**/*"],
+    "include": ["./node_modules/grandma3-ts-types/index.d.ts", "lib/**/*", "lib/parseXml.d.ts"],
     "tstl": {
       "buildMode": "library",
       "sourceMapTraceback": true,
