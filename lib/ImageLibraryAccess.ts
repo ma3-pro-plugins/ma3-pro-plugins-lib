@@ -13,9 +13,11 @@ export type BuiltInImages<ImageKey extends string> = { [key in ImageKey]: ImageD
  * Craete Image Importer
  * Runs the "UpdateContent" command which makes MA3 generate XML file for each image in the image library.
  * Then resolves which XML belongs to which image file.
+ * 
+ * @param {string} pluginId an id used as a sub-folder name inside the image library
  * @returns An Importer that can be used to import images by their original file name.
  */
-export function ImageLibraryAccess(pluginId: string, log: Logger) {
+export function ImageLibraryUtils(pluginId: string, log: Logger) {
 
     const imageLibraryPath: string = FileUtils.path(GetPath(Enums.PathType.ImageLibrary), pluginId)
 
@@ -23,7 +25,7 @@ export function ImageLibraryAccess(pluginId: string, log: Logger) {
         return `${pluginId}_${originalFileName}`
     }
 
-    function writeToImageLibrary(images: ImageData[]) {
+    function writeImageFiles(images: ImageData[]) {
         if (!FileUtils.exists(imageLibraryPath)) {
             FileUtils.makeDir(imageLibraryPath)
         }
@@ -62,22 +64,23 @@ export function ImageLibraryAccess(pluginId: string, log: Logger) {
         }
     }
 
-    return {
-        imageLibraryPath,
-        deleteAllImages,
-        writeToImageLibrary,
-        importImages: (images: { imageFileName: string, targetIndex: number | string }[]) => {
-            const xmlFileNameByImageFileName = indexLibraryFile()
-            for (let image of images) {
-                const xmlFileName = xmlFileNameByImageFileName[getImageFileName(image.imageFileName)]
-                if (xmlFileName === undefined) {
-                    error(`Import ${image.imageFileName} failed. a corresponding XML file was not found under ${imageLibraryPath}`)
-                }
-                Cmd(`Import Image "Images".${image.targetIndex} /File "${xmlFileName}" /Path "${imageLibraryPath}" /nc`)
+    function importImages(images: { imageFileName: string, targetIndex: number | string }[]) {
+        const xmlFileNameByImageFileName = indexLibraryFile()
+        for (let image of images) {
+            const xmlFileName = xmlFileNameByImageFileName[getImageFileName(image.imageFileName)]
+            if (xmlFileName === undefined) {
+                error(`Import ${image.imageFileName} failed. a corresponding XML file was not found under ${imageLibraryPath}`)
             }
-        },
+            Cmd(`Import Image "Images".${image.targetIndex} /File "${xmlFileName}" /Path "${imageLibraryPath}" /nc`)
+        }
+    }
 
+    return {
+        deleteAllImages,
+        imageLibraryPath,
+        importImages,
+        writeImageFiles,
     }
 }
 
-export type ImageLibraryAccess = ReturnType<typeof ImageLibraryAccess>
+export type ImageLibraryAccess = ReturnType<typeof ImageLibraryUtils>
