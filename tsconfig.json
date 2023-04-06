@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": ["esnext"],
+        "moduleResolution": "node",
+        "types": ["lua-types/5.3"],
+        "strict": true,
+        "declaration": true,
+        "baseUrl": ".",
+        "paths": {
+            "lib": ["lib/*"] // this mapping is relative to "baseUrl"
+          },
+        "outDir": "./dist"
+      },
+    "include": ["./node_modules/grandma3-ts-types/index.d.ts", "lib/**/*"],
+    "tstl": {
+      "buildMode": "library",
+      "sourceMapTraceback": true,
+      "noResolvePaths": ["json", "lfs", "socket"]
+    },
+  }
+      

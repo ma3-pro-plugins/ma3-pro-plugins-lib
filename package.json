@@ -1,0 +1,34 @@
+{
+  "name": "@ma3-pro-plugins/lib",
+  "version": "0.1.0",
+  "description": "TSTL Library for grandMA3 plugins",
+  "main": "./dist/index",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*.lua",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "build": "npx tstl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ma3-pro-plugins/ma3-pro-plugins-lib.git"
+  },
+  "keywords": [
+    "grandMA3",
+    "Lighting"
+  ],
+  "author": "HEPi",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ma3-pro-plugins/ma3-pro-plugins-lib/issues"
+  },
+  "homepage": "https://github.com/ma3-pro-plugins/ma3-pro-plugins-lib#readme",
+  "devDependencies": {
+    "grandma3-ts-types": "^1.1.1",
+    "lua-types": "^2.13.1",
+    "typescript": "^5.0.2",
+    "typescript-to-lua": "^1.14.0"
+  }
+}
