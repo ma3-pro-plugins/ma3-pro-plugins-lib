@@ -1,5 +1,5 @@
 {
-  "name": "@ma3-pro-plugins/lib",
+  "name": "@ma3-pro-plugins/ma3-pro-plugins-lib",
   "version": "0.1.0",
   "description": "TSTL Library for grandMA3 plugins",
   "main": "./dist/index",
