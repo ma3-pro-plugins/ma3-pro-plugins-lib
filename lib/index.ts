@@ -1,6 +1,6 @@
 export * from "./ErrorHandlingUtils";
 export * from "./FileUtils";
-export * from "./ImageLibraryAccess";
+export * from "./ImageLibraryUtils";
 export * from "./Logger";
 export * from "./TimeUtils";
 export * from "./Utils";
