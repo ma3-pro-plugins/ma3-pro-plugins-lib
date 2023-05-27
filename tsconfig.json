@@ -1,22 +1,21 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": ["esnext"],
-        "moduleResolution": "node",
-        "types": ["lua-types/5.3"],
-        "strict": true,
-        "declaration": true,
-        "baseUrl": ".",
-        "paths": {
-            "lib": ["lib/*"]
-          },
-        "outDir": "./dist"
-      },
-    "include": ["./node_modules/grandma3-ts-types/index.d.ts", "lib/**/*", "lib/parseXml.d.ts"],
-    "tstl": {
-      "buildMode": "library",
-      "sourceMapTraceback": true,
-      "noResolvePaths": ["json", "lfs", "socket"]
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "types": ["lua-types/5.3"],
+    "strict": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "lib": ["lib/*"]
     },
+    "outDir": "./dist"
+  },
+  "include": ["./node_modules/grandma3-ts-types/index.d.ts", "lib/**/*", "lib/parseXml.d.ts"],
+  "tstl": {
+    "buildMode": "library",
+    "sourceMapTraceback": true,
+    "noResolvePaths": ["json", "lfs", "socket"]
   }
-      
+}
