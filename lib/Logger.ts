@@ -91,7 +91,7 @@ export function Logger(params?: Params) {
   }
 
   function _error(msg: string) {
-    Echo(_prefixMsgWithLevel(msg, LogLevel.ERROR));
+    ErrEcho(_prefixMsgWithLevel(msg, LogLevel.ERROR));
   }
 
   function subLogger(subPrefix: string) {
