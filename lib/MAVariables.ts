@@ -1,7 +1,7 @@
 import { decode, encode } from 'json';
 import { objToString } from './DebugUtils';
 
-const MAX_USER_VAR_LENGTH = 65535;
+export const MAX_USER_VAR_LENGTH = 65535;
 
 export function MAVariables(params: {
   storageType: 'UserProfile-PluginPreferences' | 'ShowFile' | 'User';
@@ -9,7 +9,7 @@ export function MAVariables(params: {
 }) {
   const { storageType, variablesId } = params;
 
-  function _getVars() {
+  function _getOrCreateVars() {
     if (storageType === 'UserProfile-PluginPreferences') {
       const pluginPreferences = PluginVars(variablesId);
       if (pluginPreferences === undefined) {
@@ -24,14 +24,23 @@ export function MAVariables(params: {
     }
   }
 
+  function isVariablesExist() {
+    if (storageType === 'ShowFile') {
+      return Root().ShowData.ShowSettings.AddonVariables[variablesId] !== undefined;
+    } else {
+      // TODO: check if PluginVars exist
+      return true;
+    }
+  }
+
   function getVar(varName: string) {
-    const vars = _getVars();
-    return GetVar(vars, varName);
+    return isVariablesExist() ? GetVar(_getOrCreateVars(), varName) : undefined;
   }
 
   function deleteVar(varName: string) {
-    const vars = _getVars();
-    return DelVar(vars, varName);
+    if (isVariablesExist()) {
+      return DelVar(_getOrCreateVars(), varName);
+    }
   }
 
   function getJsonVar<T extends object>(varName: string) {
@@ -52,7 +61,7 @@ export function MAVariables(params: {
         MAX_USER_VAR_LENGTH
       )
     );
-    const vars = _getVars();
+    const vars = _getOrCreateVars();
     return SetVar(vars, varName, value);
   }
 
@@ -63,6 +72,19 @@ export function MAVariables(params: {
       error(`ERROR: setJsonVar(), ${variablesId}, ${varName}. value: ${objToString(value)}`);
     }
   }
+
+  function cleanup() {
+    if (storageType === 'ShowFile') {
+      const vars = Root().ShowData.ShowSettings.AddonVariables[variablesId];
+      if (vars !== undefined) {
+        const index = vars.index;
+        Root().ShowData.ShowSettings.AddonVariables.Delete(index);
+      }
+    } else {
+      // TODO
+    }
+  }
+
   return {
     variablesId: variablesId,
     getVar,
@@ -70,6 +92,7 @@ export function MAVariables(params: {
     setVar,
     setJsonVar,
     deleteVar,
+    cleanup,
   };
 }
 
